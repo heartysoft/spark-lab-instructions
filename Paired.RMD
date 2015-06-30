@@ -53,10 +53,10 @@ You can fetch the binaries to put into HADOOP_HOME/bin from [here](https://githu
 
 <hr /><hr />
 
-* [Spark](./spark.html)
-* [Pair RDDs](./paired.html)
-* [Broadcast](./broadcast.html)
-* [SparkSQL](./sparksql.html)
-* [MLLib](./mllib.html)
-* [GraphX](./graphx.html)
-* [Streaming](./twitter.html)
+* [Spark](./Spark.html)
+* [Pair RDDs](./Paired.html)
+* [Broadcast](./Broadcast.html)
+* [SparkSQL](./SparkSql.html)
+* [MLLib](./MLLib.html)
+* [GraphX](./GraphX.html)
+* [Streaming](./Twitter.html)

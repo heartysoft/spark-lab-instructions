@@ -11,11 +11,11 @@ This is a series of small exercises exploring various bits of Apache Spark. We'r
 
 Please clone the repository from [github](git@github.com:heartysoft/spark-lab.git)
 
-* [Spark](./spark.html)
-* [Pair RDDs](./paired.html)
-* [Broadcast](./broadcast.html)
-* [SparkSQL](./sparksql.html)
-* [MLLib](./mllib.html)
-* [GraphX](./graphx.html)
-* [Streaming](./twitter.html)
+* [Spark](./Spark.html)
+* [Pair RDDs](./Paired.html)
+* [Broadcast](./Broadcast.html)
+* [SparkSQL](./SparkSql.html)
+* [MLLib](./MLLib.html)
+* [GraphX](./GraphX.html)
+* [Streaming](./Twitter.html)
 

@@ -127,10 +127,11 @@ Yes...parsing can be done a lot better. No, it's not important here.
 
 <hr /><hr />
 
-* [Spark](./spark.html)
-* [Pair RDDs](./paired.html)
-* [Broadcast](./broadcast.html)
-* [SparkSQL](./sparksql.html)
-* [MLLib](./mllib.html)
-* [GraphX](./graphx.html)
-* [Streaming](./twitter.html)
+* [Spark](./Spark.html)
+* [Pair RDDs](./Paired.html)
+* [Broadcast](./Broadcast.html)
+* [SparkSQL](./SparkSql.html)
+* [MLLib](./MLLib.html)
+* [GraphX](./GraphX.html)
+* [Streaming](./Twitter.html)
+
