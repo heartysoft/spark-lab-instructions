@@ -1,0 +1,99 @@
+---
+title: "Svm with MLLib"
+author: "Ashic Mahtab"
+date: "Sunday, June 28, 2015"
+output: 
+    html_document:
+        theme: united
+---
+
+Spark has a sophisticated machine learning offering in the form of mllib. Here, we'll use mllib to do classification with an SVM. 
+
+## Steps
+
+1. Add in mllib in build.sbt:
+```
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % "1.4.0",
+  "org.apache.spark" %% "spark-sql" % "1.4.0",
+  "org.apache.spark" %% "spark-mllib" % "1.4.0"
+)
+```
+
+2. Add the imports:
+
+```
+import org.apache.spark.SparkContext
+import org.apache.spark.mllib.classification.{SVMModel, SVMWithSGD}
+import org.apache.spark.mllib.evaluation.BinaryClassificationMetrics
+import org.apache.spark.mllib.util.MLUtils
+```
+
+3. Main skeleton:
+```
+object Main {
+  def main(args: Array[String]){
+    val sc = new SparkContext("local[*]", "hello-spark")
+    sc.stop()
+  }
+}
+```
+
+4. Load the rdd:
+
+```
+val data = MLUtils.loadLibSVMFile(sc, "./data/svm/sample_libsvm_data.txt")
+```
+
+5. Split the data into training and test sets:
+
+```
+    val splits = data.randomSplit(Array(0.6, 0.4), seed = 11L)
+    val training = splits(0).cache()
+    val test = splits(1)    
+```
+
+6. Build the model:
+```
+    val numIterations = 100
+    val model = SVMWithSGD.train(training, numIterations)
+```
+
+![easy](http://assets.diylol.com/hfs/5c3/707/b90/resized/caveman-meme-generator-so-easy-even-dan-can-do-it-1bc0cf.jpg)
+
+7. Run the model on the test set:
+
+```
+    model.clearThreshold()
+    
+    val scoreAndLabels = test.map { point =>
+      val score = model.predict(point.features)
+      (score, point.label)
+    }    
+```
+
+8. Get result metrics:
+
+```
+val metrics = new BinaryClassificationMetrics(scoreAndLabels)
+val auROC = metrics.areaUnderROC()
+
+println("Area under ROC = " + auROC)
+```
+
+You can save the model to disk and reuse it later:
+
+```
+    model.save(sc, "./data/svm/model")
+    val sameModel = SVMModel.load(sc, "./data/svm/model")
+```
+
+<hr /><hr />
+
+* [Spark](./spark.html)
+* [Pair RDDs](./paired.html)
+* [Broadcast](./broadcast.html)
+* [SparkSQL](./sparksql.html)
+* [MLLib](./mllib.html)
+* [GraphX](./graphx.html)
+* [Streaming](./twitter.html)

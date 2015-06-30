@@ -1,0 +1,48 @@
+---
+title: "Broadcasts and Accumulators"
+author: "Ashic Mahtab"
+date: "Saturday, June 27, 2015"
+output: 
+    html_document:
+        theme: united
+---
+
+Broadcasts are values sent from the driver to executors. They can be used for lookups, etc. and executors can only read them. Accumulators on the other hand are written to in executors, and read in the driver. They can be used for counts, sum of squares, etc. 
+
+## Steps
+
+1. git checkout ex2
+2. Change main to:
+
+```
+object Main {
+  def main(args: Array[String]){
+    val sc = new SparkContext("local[*]", "hello-spark")
+
+    val rdd = sc.parallelize(1 to 1000, 4)
+
+    val div = 2.0
+
+    val bDiv = sc.broadcast(div)
+
+    val accum = sc.accumulator(0.0)
+
+    rdd.map(_ / bDiv.value)
+      .foreach(x => accum += x)
+
+    println(accum.value)
+
+    sc.stop()
+  }
+}
+```
+
+<hr /><hr />
+
+* [Spark](./spark.html)
+* [Pair RDDs](./paired.html)
+* [Broadcast](./broadcast.html)
+* [SparkSQL](./sparksql.html)
+* [MLLib](./mllib.html)
+* [GraphX](./graphx.html)
+* [Streaming](./twitter.html)

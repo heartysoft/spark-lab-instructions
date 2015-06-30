@@ -1,0 +1,70 @@
+---
+title: "Spark-Lab"
+author: "Ashic Mahtab"
+date: "Wednesday, June 24, 2015"
+output: 
+    html_document:
+        theme: united
+---
+
+In this exercise, we will get up and running with Spark using Scala. 
+
+We will work on a skeleton sbt project. 
+
+<hr />
+
+I'm using Scala 2.11.7 and SBT 0.13.8. If you're running different versions, please update the values in ./build.sbt and ./project/build.properties
+
+The code is provided as an IntelliJ IDEA project, however a command line + text editor combination should work fine.
+
+<hr />
+
+## Steps
+
+1. Change ./build.sbt to:
+
+```
+name := "spark-lab"
+
+version := "1.0"
+
+scalaVersion := "2.11.7"
+
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % "1.4.0"
+)
+```
+2. Reload sbt
+
+3. Change the main() function to:
+
+```
+import org.apache.spark.SparkContext
+
+object Main {
+  def main(args: Array[String]){
+    val sc = new SparkContext("local[*]", "hello-spark")
+
+    val rdd = sc.parallelize(1 to 10)
+
+    val even = rdd.filter(_ % 2 == 0)
+
+    even.foreach(println)
+
+    sc.stop()
+  }
+}
+```
+
+4. Run the app.
+
+
+<hr /><hr />
+
+* [Spark](./spark.html)
+* [Pair RDDs](./paired.html)
+* [Broadcast](./broadcast.html)
+* [SparkSQL](./sparksql.html)
+* [MLLib](./mllib.html)
+* [GraphX](./graphx.html)
+* [Streaming](./twitter.html)

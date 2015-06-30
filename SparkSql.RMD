@@ -1,0 +1,68 @@
+---
+title: "Spark SQL"
+author: "Ashic Mahtab"
+date: "Saturday, June 27, 2015"
+output: 
+    html_document:
+        theme: united
+---
+
+Sql and Hive functionality in Spark. 
+
+## Steps
+
+1. Add a dependency to spark-sql in build.sbt:
+
+```
+libraryDependencies ++= Seq(
+  "org.apache.spark" %% "spark-core" % "1.4.0",
+  "org.apache.spark" %% "spark-sql" % "1.4.0"
+)
+```
+
+2. Add the import:
+
+```
+import org.apache.spark.sql.SQLContext
+```
+3. Change main to:
+
+```
+object Main {
+  def main(args: Array[String]){
+    val sc = new SparkContext("local[*]", "hello-spark")
+    val ssc = new SQLContext(sc)
+    import ssc.implicits._ //implicit conversion between rdds and data frames
+
+    val wb = ssc.read.json("./data/wb/world_bank.json")
+
+    wb.printSchema()
+    wb.registerTempTable("world_bank")
+
+    val entries = ssc.sql("SELECT grantamt from world_bank order by grantamt desc LIMIT 5")
+    entries.foreach(println)
+
+    sc.stop()
+  }
+}
+```
+4. Spark also has a data frame api similar to R. Here, we will find out the top five primary sectors by grant amount for grants to Bangladesh. 
+
+```
+    val bdSectors =
+      wb.select(wb("sector1.Name"), wb("countrycode"), $"grantamt")
+        .filter(wb("countrycode") === "BD")
+        .orderBy($"grantamt".desc)
+    bdSectors.show(5)
+```
+
+
+<hr /><hr />
+
+* [Spark](./spark.html)
+* [Pair RDDs](./paired.html)
+* [Broadcast](./broadcast.html)
+* [SparkSQL](./sparksql.html)
+* [MLLib](./mllib.html)
+* [GraphX](./graphx.html)
+* [Streaming](./twitter.html)

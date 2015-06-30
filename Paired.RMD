@@ -1,0 +1,62 @@
+---
+title: "Paired RDDs"
+author: "Ashic Mahtab"
+date: "Thursday, June 25, 2015"
+output: 
+    html_document:
+        theme: united
+---
+
+In this exercise, we'll work with key-value pairs. What better way to dig into big data than Word Count?!?
+
+![Say Word Count One More Time](http://memecrunch.com/meme/3HOZS/say-word-count/image.jpg?w=400&c=1)
+
+## Creating Pairs
+
+You can easily create paired rdds - just map normal rdds to tuples with two elements (certain data sources can give paired rdds directly, which would be more efficient).
+
+Paired rdds can be incredibly useful. You can take advantage of partitions for the same key being on the same node to speed up processing. This is similar to how hadoop jobs can be made faster by taking advantage of data locality. 
+
+Here, we will map words from files to tuples of the form (word, 1). We will then "reduce" all the entries for a given word to a sum, so we end up with (word, count) pairs.
+
+## Steps
+
+1. git checkout ex1
+2. Change main to:
+
+```
+object Main {
+  def main(args: Array[String]){
+    val sc = new SparkContext("local[*]", "hello-spark")
+
+    val rdd = sc.textFile("./data/files/london.txt")
+
+    val pattern = "/[^a-zA-Z 0-9]+/g".r
+    rdd.map(pattern.replaceAllIn(_, ""))
+      .flatMap(_.split(' '))
+      .map(_.toLowerCase)
+      .map((_, 1))
+      .reduceByKey((a, b) => a + b)
+      .foreach(println)
+
+    sc.stop()
+  }
+}
+```
+
+<hr />
+
+You should be able to specify a folder, and Spark will go through all file in it. However, it seems on recent Spark versions, on Windows, specifying a folder doesn't work for standalone apps and spark-shell unless you have WinUtils in HADOOP_HOME/bin. Jobs submitted to a cluster should still work.This was not the case in Spark 1.1, but seems to be an issue in 1.4. 
+
+You can fetch the binaries to put into HADOOP_HOME/bin from [here](https://github.com/steveloughran/clusterconfigs/tree/master/clusters/morzine/hadoop_home/bin).
+
+
+<hr /><hr />
+
+* [Spark](./spark.html)
+* [Pair RDDs](./paired.html)
+* [Broadcast](./broadcast.html)
+* [SparkSQL](./sparksql.html)
+* [MLLib](./mllib.html)
+* [GraphX](./graphx.html)
+* [Streaming](./twitter.html)

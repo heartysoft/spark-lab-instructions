@@ -1,0 +1,21 @@
+---
+title: "Spark Lab"
+author: "Ashic Mahtab"
+date: "Tuesday, June 30, 2015"
+output: 
+    html_document:
+        theme: united
+---
+
+This is a series of small exercises exploring various bits of Apache Spark. We're not focusing on setting up Spark servers, rather how to use (some of) its features.
+
+Please clone the repository from [github](git@github.com:heartysoft/spark-lab.git)
+
+* [Spark](./spark.html)
+* [Pair RDDs](./paired.html)
+* [Broadcast](./broadcast.html)
+* [SparkSQL](./sparksql.html)
+* [MLLib](./mllib.html)
+* [GraphX](./graphx.html)
+* [Streaming](./twitter.html)
+
